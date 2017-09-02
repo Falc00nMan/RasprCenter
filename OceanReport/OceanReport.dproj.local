@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>1899.12.30 00:00:00.000.213,E:\Programming\Delphi\OceanReport\Unit1.dfm=E:\Programming\Delphi\OceanReport\DataU.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.156,E:\Programming\Delphi\OceanReport\Unit1.dfm=E:\Programming\Delphi\OceanReport\EditReportU.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.761,=C:\Users\Andryshok\Documents\RAD Studio\Projects\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.644,C:\Users\Andryshok\Documents\RAD Studio\Projects\Project1.dproj=E:\Programming\Delphi\OceanReport\OceanReport.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.579,C:\Users\Andryshok\Documents\RAD Studio\Projects\Unit1.dfm=E:\Programming\Delphi\OceanReport\MainU.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.601,E:\Programming\Delphi\OceanReport\Unit1.dfm=E:\Programming\Delphi\OceanReport\ReportRightsU.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.579,C:\Users\Andryshok\Documents\RAD Studio\Projects\Unit1.pas=E:\Programming\Delphi\OceanReport\MainU.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.179,=E:\Programming\Delphi\OceanReport\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.213,E:\Programming\Delphi\OceanReport\Unit1.pas=E:\Programming\Delphi\OceanReport\DataU.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.156,E:\Programming\Delphi\OceanReport\Unit1.pas=E:\Programming\Delphi\OceanReport\EditReportU.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.601,E:\Programming\Delphi\OceanReport\Unit1.pas=E:\Programming\Delphi\OceanReport\ReportRightsU.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.199,=E:\Programming\Delphi\OceanReport\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.484,=E:\Programming\Delphi\OceanReport\Unit1.pas</Transaction>
+  </Transactions>
+</BorlandProject>
