@@ -169,9 +169,6 @@ object ReportRightsF: TReportRightsF
       Navigator.Buttons.Filter.Enabled = False
       Navigator.Buttons.Filter.Visible = False
       Navigator.Visible = True
-      FindPanel.DisplayMode = fpdmAlways
-      FindPanel.InfoText = #1042#1074#1077#1076#1080#1090#1077' '#1090#1077#1082#1089#1090' '#1076#1083#1103' '#1087#1086#1080#1089#1082#1072'...'
-      FindPanel.ShowCloseButton = False
       DataController.DataSource = dsReportRights
       DataController.KeyFieldNames = 'name'
       DataController.Summary.DefaultGroupSummaryItems = <>

@@ -4,12 +4,20 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, amFunc, Data.DB, MemDS, DBAccess, Uni,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, MemDS, DBAccess, Uni,
   cxGraphics, cxLookAndFeels, cxLookAndFeelPainters, Vcl.Menus, cxControls,
   cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxEdit, cxNavigator,
   cxDBData, cxCheckBox, cxGridCustomTableView, cxGridTableView,
   cxGridDBTableView, cxGridLevel, cxClasses, cxGridCustomView, cxGrid,
-  Vcl.StdCtrls, cxButtons, Vcl.ExtCtrls;
+  Vcl.StdCtrls, cxButtons, Vcl.ExtCtrls, dxSkinsCore, dxSkinBlack, dxSkinBlue, dxSkinBlueprint, dxSkinCaramel,
+  dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle, dxSkinDevExpressStyle, dxSkinFoggy,
+  dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian, dxSkinLiquidSky, dxSkinLondonLiquidSky,
+  dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins, dxSkinOffice2007Black, dxSkinOffice2007Blue,
+  dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver, dxSkinOffice2010Black, dxSkinOffice2010Blue,
+  dxSkinOffice2010Silver, dxSkinOffice2013DarkGray, dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinPumpkin,
+  dxSkinSeven, dxSkinSevenClassic, dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
+  dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint,
+  dxSkinXmas2008Blue, dxSkinscxPCPainter;
 
 type
   TReportRightsF = class(TForm)
@@ -60,7 +68,6 @@ begin
   F := Nil;
   Result := Null;
     try
-      F := TReportRightsF_Normal(FindForm(TReportRightsF_Normal));
       if not Assigned(f) then
       begin
         F := TReportRightsF_Normal.Create(v);
@@ -123,19 +130,19 @@ begin
   SQLReportRights.SQL.Text := 'IF NOT EXISTS(SELECT SQLUserName FROM ReportRights) BEGIN '+
     'INSERT INTO ReportRights(ReportID, SQLUserName) VALUES (:ReportID, :SQLUserName) END';
   SQLReportRights.ParamByName('ReportID').AsInteger := ReportID;
-  SQLReportRights.ParamByName('SQLUserName').AsString := Var2String(qrReportRights['name']);
+  SQLReportRights.ParamByName('SQLUserName').AsString := VarToStr(qrReportRights['name']);
   SQLReportRights.Execute;
 
   SQLReportRights.SQL.Text := 'UPDATE ReportRights SET IsActive = :IsActive WHERE SQLUserName = :SQLUserName';
-  SQLReportRights.ParamByName('IsActive').AsInteger := Var2Int(qrReportRights['IsActive']);
-  SQLReportRights.ParamByName('SQLUserName').AsString := Var2String(qrReportRights['name']);
+  SQLReportRights.ParamByName('IsActive').AsInteger := (qrReportRights['IsActive']);
+  SQLReportRights.ParamByName('SQLUserName').AsString := VarToStr(qrReportRights['name']);
   SQLReportRights.Execute;
 end;
 
 
 constructor TReportRightsF.Create(const V: Variant);
 begin
-  ReportID := Var2Int(v);
+  ReportID := (v);
   inherited Create(Application);
 end;
 

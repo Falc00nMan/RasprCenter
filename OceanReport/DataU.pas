@@ -51,10 +51,10 @@ begin
  if DB.Connected then DB.Close;
   try
     Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+'config.ini');
-    DB.Server := Ini.ReadString('DB', 'server', '');
+    {DB.Server := Ini.ReadString('DB', 'server', '');
     DB.Database := Ini.ReadString('DB', 'database', '');
     DB.Username := Ini.ReadString('DB', 'username', '');
-    DB.Password := Ini.ReadString('DB', 'password', '');
+    DB.Password := Ini.ReadString('DB', 'password', '');  }
     DB.Connect;
 
     Localizer.FileName := IncludeTrailingBackslash(ExtractFilePath(Application.ExeName)) + 'RussianLng.ini';

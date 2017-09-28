@@ -5,7 +5,8 @@ uses
   MainU in 'MainU.pas' {MainF},
   DataU in 'DataU.pas' {DataF: TDataModule},
   EditReportU in 'EditReportU.pas' {EditReportF},
-  ReportRightsU in 'ReportRightsU.pas' {ReportRightsF};
+  ReportRightsU in 'ReportRightsU.pas' {ReportRightsF},
+  SelectFormU in 'SelectFormU.pas' {SelectForm};
 
 {$R *.res}
 

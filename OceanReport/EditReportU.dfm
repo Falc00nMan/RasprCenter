@@ -16,54 +16,120 @@ object EditReportF: TEditReportF
   TextHeight = 13
   object pnlDesigner: TPanel
     Left = 0
-    Top = 0
+    Top = 30
     Width = 780
-    Height = 512
+    Height = 507
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlDesigner'
     ShowCaption = False
     TabOrder = 0
-    ExplicitHeight = 485
   end
-  object pnlactions: TPanel
+  object pnlactions: TAdvPanel
     Left = 0
-    Top = 512
+    Top = 0
     Width = 780
-    Height = 25
-    Align = alBottom
-    BevelOuter = bvLowered
-    Caption = 'pnlactions'
-    ShowCaption = False
+    Height = 30
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 16643823
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
     TabOrder = 1
+    UseDockManager = True
+    Version = '2.3.0.8'
+    AutoSize.Width = False
+    BorderWidth = 1
+    Caption.Color = 16643823
+    Caption.ColorTo = 15784647
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = 5978398
+    Caption.Font.Height = -11
+    Caption.Font.Name = 'Tahoma'
+    Caption.Font.Style = []
+    Caption.GradientDirection = gdVertical
+    Caption.Indent = 2
+    Caption.ShadeLight = 255
+    CollapsColor = clNone
+    CollapsDelay = 0
+    ColorTo = 15784647
+    ShadowColor = clBlack
+    ShadowOffset = 0
+    StatusBar.BorderColor = 16643823
+    StatusBar.BorderStyle = bsSingle
+    StatusBar.Font.Charset = DEFAULT_CHARSET
+    StatusBar.Font.Color = 5978398
+    StatusBar.Font.Height = -11
+    StatusBar.Font.Name = 'Tahoma'
+    StatusBar.Font.Style = []
+    StatusBar.Color = 16643823
+    StatusBar.ColorTo = 15784647
+    StatusBar.GradientDirection = gdVertical
+    Text = ''
+    FullHeight = 30
+    object cxLabel1: TcxLabel
+      Left = 5
+      Top = 6
+      Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+      Transparent = True
+    end
+    object rbReport: TcxRadioButton
+      Left = 355
+      Top = 7
+      Width = 50
+      Height = 17
+      Caption = #1086#1090#1095#1077#1090
+      TabOrder = 2
+      Transparent = True
+    end
+    object rbDocument: TcxRadioButton
+      Left = 280
+      Top = 7
+      Width = 70
+      Height = 17
+      Caption = #1076#1086#1082#1091#1084#1077#1085#1090
+      Checked = True
+      TabOrder = 3
+      TabStop = True
+      Transparent = True
+    end
     object chkActive: TcxCheckBox
-      Left = 0
-      Top = 2
+      Left = 420
+      Top = 7
+      AutoSize = False
       Caption = #1040#1082#1090#1080#1074#1077#1085
       Properties.DisplayChecked = '1'
       Properties.DisplayUnchecked = '0'
       Properties.NullStyle = nssUnchecked
       Properties.ValueChecked = '1'
       Properties.ValueUnchecked = '0'
-      State = cbsGrayed
-      TabOrder = 0
+      State = cbsChecked
+      TabOrder = 4
       Transparent = True
       OnClick = chkActiveClick
-      Width = 81
+      Height = 17
+      Width = 73
     end
-    object cxLabel1: TcxLabel
-      Left = 80
-      Top = 3
-      Caption = #1053#1072#1079#1074#1072#1085#1080#1077
-      Transparent = True
+    object edReportName: TcxTextEdit
+      Left = 63
+      Top = 4
+      Properties.OnChange = edReportNamePropertiesChange
+      TabOrder = 1
+      Text = #1041#1077#1079' '#1085#1072#1079#1074#1072#1085#1080#1103
+      Width = 200
     end
-    object edReportName: TcxDBTextEdit
-      Left = 132
-      Top = 3
-      DataBinding.DataField = 'ReportName'
-      DataBinding.DataSource = dsReports
-      TabOrder = 2
-      Width = 409
+    object cxButton1: TcxButton
+      Left = 500
+      Top = 4
+      Width = 121
+      Height = 21
+      Caption = #1042#1099#1073#1088#1072#1090#1100' '#1092#1086#1088#1084#1099
+      TabOrder = 5
+      OnClick = cxButton1Click
     end
   end
   object frxDesigner: TfrxDesigner
@@ -86,8 +152,8 @@ object EditReportF: TEditReportF
     RTLLanguage = False
     MemoParentFont = False
     OnSaveReport = frxDesignerSaveReport
-    Left = 116
-    Top = 128
+    Left = 76
+    Top = 96
   end
   object frxReport: TfrxReport
     Version = '5.3.1'
@@ -104,8 +170,8 @@ object EditReportF: TEditReportF
       'begin'
       ''
       'end.')
-    Left = 152
-    Top = 128
+    Left = 192
+    Top = 104
     Datasets = <>
     Variables = <>
     Style = <>
@@ -135,9 +201,11 @@ object EditReportF: TEditReportF
     KeyFields = 'ReportID'
     SQLInsert.Strings = (
       'INSERT INTO Reports'
-      '  (ReportGroupID, ReportName, ReportBinary, IsActive)'
+      '  (ReportGroupID, ReportName, ReportBinary, IsActive, DocType)'
       'VALUES'
-      '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive)'
+      
+        '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive, :DocTy' +
+        'pe)'
       'SET :ReportID = SCOPE_IDENTITY()')
     SQLDelete.Strings = (
       'DELETE FROM Reports'
@@ -148,7 +216,8 @@ object EditReportF: TEditReportF
       'SET'
       
         '  ReportGroupID = :ReportGroupID, ReportName = :ReportName, Repo' +
-        'rtBinary = :ReportBinary, IsActive = :IsActive'
+        'rtBinary = :ReportBinary, IsActive = :IsActive, DocType = :DocTy' +
+        'pe'
       'WHERE'
       '  ReportID = :Old_ReportID')
     SQLLock.Strings = (
@@ -158,8 +227,8 @@ object EditReportF: TEditReportF
       '  ReportID = :Old_ReportID')
     SQLRefresh.Strings = (
       
-        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive FROM Re' +
-        'ports'
+        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive, DocTyp' +
+        'e FROM Reports'
       'WHERE'
       '  ReportID = :ReportID')
     SQLRecCount.Strings = (
@@ -167,12 +236,12 @@ object EditReportF: TEditReportF
       ')')
     Connection = DataF.DB
     SQL.Strings = (
-      'select * from Reports  where ReportID = :ReportID')
+      'select * from Reports where ReportID = :ReportID')
     Options.QueryRecCount = True
     Options.ReturnParams = True
     BeforeUpdateExecute = qrReportsBeforeUpdateExecute
-    Left = 112
-    Top = 176
+    Left = 48
+    Top = 192
     ParamData = <
       item
         DataType = ftUnknown
@@ -200,39 +269,43 @@ object EditReportF: TEditReportF
       FieldName = 'IsActive'
       Required = True
     end
+    object qrReportsDocType: TByteField
+      FieldName = 'DocType'
+      Required = True
+    end
   end
   object dsReports: TUniDataSource
     DataSet = qrReports
-    Left = 144
-    Top = 176
+    Left = 136
+    Top = 216
   end
   object frxChartObject: TfrxChartObject
-    Left = 200
-    Top = 128
+    Left = 216
+    Top = 184
   end
   object frxBarCodeObject: TfrxBarCodeObject
-    Left = 236
-    Top = 128
+    Left = 276
+    Top = 48
   end
   object frxOLEObject: TfrxOLEObject
-    Left = 272
+    Left = 352
     Top = 124
   end
   object frxRichObject: TfrxRichObject
-    Left = 312
-    Top = 124
+    Left = 304
+    Top = 196
   end
   object frxCrossObject: TfrxCrossObject
-    Left = 352
-    Top = 128
+    Left = 400
+    Top = 64
   end
   object frxCheckBoxObject: TfrxCheckBoxObject
     Left = 388
-    Top = 132
+    Top = 204
   end
   object frxGradientObject: TfrxGradientObject
-    Left = 432
-    Top = 132
+    Left = 488
+    Top = 156
   end
   object frxDotMatrixExport: TfrxDotMatrixExport
     UseFileCache = True
@@ -243,12 +316,12 @@ object EditReportF: TEditReportF
     GraphicFrames = False
     SaveToFile = False
     UseIniSettings = True
-    Left = 476
-    Top = 136
+    Left = 524
+    Top = 96
   end
   object frxDialogControls: TfrxDialogControls
-    Left = 524
-    Top = 136
+    Left = 588
+    Top = 112
   end
   object frxCrypt: TfrxCrypt
     Left = 444
@@ -282,5 +355,194 @@ object EditReportF: TEditReportF
     PdfA = False
     Left = 628
     Top = 296
+  end
+  object qrReportsFormsLink: TUniQuery
+    KeyFields = 'ReportID'
+    SQLInsert.Strings = (
+      'INSERT INTO Reports'
+      '  (ReportGroupID, ReportName, ReportBinary, IsActive, DocType)'
+      'VALUES'
+      
+        '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive, :DocTy' +
+        'pe)'
+      'SET :ReportID = SCOPE_IDENTITY()')
+    SQLDelete.Strings = (
+      'DELETE FROM Reports'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLUpdate.Strings = (
+      'UPDATE Reports'
+      'SET'
+      
+        '  ReportGroupID = :ReportGroupID, ReportName = :ReportName, Repo' +
+        'rtBinary = :ReportBinary, IsActive = :IsActive, DocType = :DocTy' +
+        'pe'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLLock.Strings = (
+      'SELECT * FROM Reports'
+      'WITH (UPDLOCK, ROWLOCK, HOLDLOCK)'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLRefresh.Strings = (
+      
+        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive, DocTyp' +
+        'e FROM Reports'
+      'WHERE'
+      '  ReportID = :ReportID')
+    SQLRecCount.Strings = (
+      'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
+      ')')
+    Connection = DataF.DB
+    SQL.Strings = (
+      'INSERT INTO ReportsFormsLinks (ReportID, FormID)'
+      'VALUES (:ReportID, :FormID)')
+    Options.QueryRecCount = True
+    Options.ReturnParams = True
+    BeforeUpdateExecute = qrReportsBeforeUpdateExecute
+    Left = 48
+    Top = 280
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ReportID'
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'FormID'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object IntegerField1: TIntegerField
+      FieldName = 'ReportID'
+      ReadOnly = True
+      Required = True
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'ReportGroupID'
+      Required = True
+    end
+    object WideStringField1: TWideStringField
+      FieldName = 'ReportName'
+      Required = True
+      Size = 128
+    end
+    object BlobField1: TBlobField
+      FieldName = 'ReportBinary'
+    end
+    object ByteField1: TByteField
+      FieldName = 'IsActive'
+      Required = True
+    end
+    object ByteField2: TByteField
+      FieldName = 'DocType'
+      Required = True
+    end
+  end
+  object mdForms: TdxMemData
+    Indexes = <>
+    SortOptions = []
+    Left = 128
+    Top = 368
+  end
+  object qForms: TUniQuery
+    Connection = DataF.DB
+    SQL.Strings = (
+      
+        'select FormID, FormName, ClassName, Cast(CASE WHEN FormSelected ' +
+        'IS NULL THEN 0 ELSE 1 END as tinyint) FormSelected From ('
+      'select s.*, l.FormID FormSelected from sprForms s'
+      
+        'left join ReportsFormsLinks l on l.FormID = s.FormID and l.Repor' +
+        'tID = IsNull(:ReportID, l.ReportID)) q'
+      'order by FormName')
+    Left = 42
+    Top = 373
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'ReportID'
+        ParamType = ptInput
+        Value = nil
+      end>
+  end
+  object qrReportsFormsLinkDelete: TUniQuery
+    KeyFields = 'ReportID'
+    SQLInsert.Strings = (
+      'INSERT INTO Reports'
+      '  (ReportGroupID, ReportName, ReportBinary, IsActive, DocType)'
+      'VALUES'
+      
+        '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive, :DocTy' +
+        'pe)'
+      'SET :ReportID = SCOPE_IDENTITY()')
+    SQLDelete.Strings = (
+      'DELETE FROM Reports'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLUpdate.Strings = (
+      'UPDATE Reports'
+      'SET'
+      
+        '  ReportGroupID = :ReportGroupID, ReportName = :ReportName, Repo' +
+        'rtBinary = :ReportBinary, IsActive = :IsActive, DocType = :DocTy' +
+        'pe'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLLock.Strings = (
+      'SELECT * FROM Reports'
+      'WITH (UPDLOCK, ROWLOCK, HOLDLOCK)'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLRefresh.Strings = (
+      
+        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive, DocTyp' +
+        'e FROM Reports'
+      'WHERE'
+      '  ReportID = :ReportID')
+    SQLRecCount.Strings = (
+      'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
+      ')')
+    Connection = DataF.DB
+    SQL.Strings = (
+      'DELETE FROM ReportsFormsLinks WHERE ReportID = :ReportID')
+    Options.QueryRecCount = True
+    Options.ReturnParams = True
+    BeforeUpdateExecute = qrReportsBeforeUpdateExecute
+    Left = 128
+    Top = 280
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'ReportID'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object IntegerField3: TIntegerField
+      FieldName = 'ReportID'
+      ReadOnly = True
+      Required = True
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'ReportGroupID'
+      Required = True
+    end
+    object WideStringField2: TWideStringField
+      FieldName = 'ReportName'
+      Required = True
+      Size = 128
+    end
+    object BlobField2: TBlobField
+      FieldName = 'ReportBinary'
+    end
+    object ByteField3: TByteField
+      FieldName = 'IsActive'
+      Required = True
+    end
+    object ByteField4: TByteField
+      FieldName = 'DocType'
+      Required = True
+    end
   end
 end

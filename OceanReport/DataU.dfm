@@ -6,13 +6,14 @@ object DataF: TDataF
   Width = 747
   object DB: TUniConnection
     ProviderName = 'SQL Server'
-    Database = 'OceanProject'
-    Username = 'bdenisov'
-    Server = '192.168.199.212'
+    Database = 'RasprCenter2017'
+    Username = 'eugene'
+    Server = 'localhost'
+    Connected = True
     LoginPrompt = False
     Left = 36
     Top = 20
-    EncryptedPassword = 'B5FF94FF8BFF87FF8DFF99FFCCFFDCFF'
+    EncryptedPassword = '9CFF9AFF91FF9AFF94FF8CFF8EFF9CFF9AFF9CFF94FF9DFF8DFF'
   end
   object SQLServerProvider: TSQLServerUniProvider
     Left = 36
@@ -20,7 +21,6 @@ object DataF: TDataF
   end
   object SkinController: TdxSkinController
     Kind = lfStandard
-    NativeStyle = True
     SkinName = 'Office2013White'
     UseSkins = False
     Left = 252

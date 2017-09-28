@@ -7,7 +7,17 @@ uses
   Vcl.Controls, Vcl.Forms, Vcl.Dialogs, cxGraphics, cxControls, cxLookAndFeels,
   cxLookAndFeelPainters, dxStatusBar, Vcl.ComCtrls, dxtree, cxSplitter, cxPC,
   dxBarBuiltInMenu, cxClasses, dxTabbedMDI, Data.DB, MemDS, DBAccess, Uni,
-  Vcl.ImgList, amFunc, Vcl.Menus, Vcl.StdCtrls, cxButtons, Vcl.ExtCtrls, cmInputStringU;
+  Vcl.ImgList,  Vcl.Menus, Vcl.StdCtrls, cxButtons, Vcl.ExtCtrls, dxSkinsCore, dxSkinBlack, dxSkinBlue,
+  dxSkinBlueprint, dxSkinCaramel, dxSkinCoffee, dxSkinDarkRoom, dxSkinDarkSide, dxSkinDevExpressDarkStyle,
+  dxSkinDevExpressStyle, dxSkinFoggy, dxSkinGlassOceans, dxSkinHighContrast, dxSkiniMaginary, dxSkinLilian,
+  dxSkinLiquidSky, dxSkinLondonLiquidSky, dxSkinMcSkin, dxSkinMetropolis, dxSkinMetropolisDark, dxSkinMoneyTwins,
+  dxSkinOffice2007Black, dxSkinOffice2007Blue, dxSkinOffice2007Green, dxSkinOffice2007Pink, dxSkinOffice2007Silver,
+  dxSkinOffice2010Black, dxSkinOffice2010Blue, dxSkinOffice2010Silver, dxSkinOffice2013DarkGray,
+  dxSkinOffice2013LightGray, dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic, dxSkinSharp,
+  dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld,
+  dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
+  dxSkinsdxStatusBarPainter, dxSkinscxPCPainter, VirtualTable, dxmdaset, RzPanel, RzButton, System.Actions, Vcl.ActnList,
+  AdvMenus;
 
   type
   PNodeData = ^TNodeData;
@@ -36,24 +46,35 @@ type
     qrReportsIsActive: TByteField;
     imgTree: TcxImageList;
     pnlTree: TPanel;
-    pnlTreeActions: TPanel;
-    btnAdd: TcxButton;
-    btnEdit: TcxButton;
-    btnDelete: TcxButton;
-    btnRights: TcxButton;
-    pmAdd: TPopupMenu;
-    N1: TMenuItem;
     SQLTreeActions: TUniSQL;
+    ilRefBookActionImages: TcxImageList;
+    actlstRefBook: TActionList;
+    actAddReport: TAction;
+    actAddGroup: TAction;
+    actEdit: TAction;
+    actDelete: TAction;
+    actRefreshGroup: TAction;
+    RzToolbar1: TRzToolbar;
+    btnAdd1: TRzToolButton;
+    RzSpacer1: TRzSpacer;
+    btnEdit1: TRzToolButton;
+    RzSpacer2: TRzSpacer;
+    btnDelete1: TRzToolButton;
+    btnRefresh: TRzToolButton;
+    pmAddClientsGroup: TAdvPopupMenu;
+    miAddProdCat: TMenuItem;
+    miAddProdCatSub: TMenuItem;
+    actRights: TAction;
     procedure treeReportClick(Sender: TObject);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure qrReportGroupBeforeUpdateExecute(Sender: TDataSet;
       StatementTypes: TStatementTypes; Params: TDAParams);
     procedure FormCreate(Sender: TObject);
-    procedure btnAddClick(Sender: TObject);
-    procedure btnEditClick(Sender: TObject);
-    procedure btnDeleteClick(Sender: TObject);
-    procedure btnRightsClick(Sender: TObject);
-    procedure N1Click(Sender: TObject);
+    procedure actAddGroupExecute(Sender: TObject);
+    procedure actAddReportExecute(Sender: TObject);
+    procedure actEditExecute(Sender: TObject);
+    procedure actDeleteExecute(Sender: TObject);
+    procedure actRightsExecute(Sender: TObject);
   private
     SelectedData: PNodeData;
     procedure CloseChildrens;
@@ -64,8 +85,6 @@ type
     function EditReportGroup (ReportGroupID : Integer; ReportGroupName : string) : Boolean;
     function DeleteReportGroup (ReportGroupID : Integer) : Boolean;
     function DeleteReport (ReportID : Integer) : Boolean;
-
-
 
     //function InsertReport (ReportGroupID : Integer; ReportGroupName : string) : Boolean;
   public
@@ -88,13 +107,11 @@ end;
 
 procedure TMainF.ToggleControls;
 begin
-  btnDelete.Enabled := (SelectedData.ReportGroupID <> 0) or (SelectedData.ReportID <> 0);
-  btnEdit.Enabled := (SelectedData.ReportGroupID <> 0) or (SelectedData.ReportID <> 0);
-  btnRights.Enabled := SelectedData.ReportID <> 0;
-  N1.Enabled := (SelectedData.ReportGroupID <> 0) and (SelectedData.ReportID = 0);
+  actDelete.Enabled := (SelectedData.ReportGroupID <> 0) or (SelectedData.ReportID <> 0);
+  actEdit.Enabled := (SelectedData.ReportGroupID <> 0) or (SelectedData.ReportID <> 0);
+  actRights.Enabled := SelectedData.ReportID <> 0;
+  actAddReport.Enabled := (SelectedData.ReportGroupID <> 0) and (SelectedData.ReportID = 0);
 end;
-
-
 
 function TMainF.InsertReportGroup (ReportGroupName : string) : Boolean;
 begin
@@ -124,7 +141,6 @@ begin
   Result := True;
 end;
 
-
 function TMainF.DeleteReport (ReportID : Integer) : Boolean;
 begin
   Result := False;
@@ -134,18 +150,23 @@ begin
   Result := True;
 end;
 
-
-procedure TMainF.btnAddClick(Sender: TObject);
+procedure TMainF.actAddGroupExecute(Sender: TObject);
 var
   s : string;
 begin
-  if InputString(s, 'Добавить группу', 'Введите название', '', false, false ) =  mrOk then
-  begin
-    if InsertReportGroup(s) then LoadReportTree;
-  end;
+  if InputQuery('Добавить группу', 'Введите название', s) and InsertReportGroup(s) then
+    LoadReportTree;
 end;
 
-procedure TMainF.btnDeleteClick(Sender: TObject);
+procedure TMainF.actAddReportExecute(Sender: TObject);
+begin
+  //Application.CreateForm(TfmAddReport, fmAddReport);
+  //if fmAddReport.ShowModal = mrOk then
+    ShowEditReport(VarArrayOf([0, SelectedData.ReportGroupID, 'Без названия' ]));
+  //FreeAndNil(fmAddReport);
+end;
+
+procedure TMainF.actDeleteExecute(Sender: TObject);
 begin
   if SelectedData.ReportID = 0 then
   begin
@@ -159,28 +180,26 @@ begin
     begin
       if DeleteReport(SelectedData.ReportID) then LoadReportTree;
     end;
-  end;
-end;
+  end;end;
 
-procedure TMainF.btnEditClick(Sender: TObject);
+procedure TMainF.actEditExecute(Sender: TObject);
 var
   s : string;
 begin
   if SelectedData.ReportID = 0 then
   begin
     s := SelectedData.ReportGroupName;
-    if InputString(s, 'Редактировать группу', 'Введите название', '', false, false ) =  mrOk then
+    if InputQuery('Редактировать группу', 'Введите название', s) then
     begin
       if EditReportGroup(SelectedData.ReportGroupID,  s) then LoadReportTree;
     end;
   end else
   begin
-    EditReportF.ShowEditReport(VarArrayOf([SelectedData.ReportID, SelectedData.ReportGroupID, SelectedData.ReportName ]));
+    ShowEditReport(VarArrayOf([SelectedData.ReportID, SelectedData.ReportGroupID, SelectedData.ReportName ]));
   end;
-
 end;
 
-procedure TMainF.btnRightsClick(Sender: TObject);
+procedure TMainF.actRightsExecute(Sender: TObject);
 begin
   ReportRightsF.EditReportRights(SelectedData.ReportID);
 end;
@@ -231,8 +250,8 @@ begin
     while not qrReportGroup.Eof do
     begin
         New(ANodeData);
-        ANodeData^.ReportGroupID:= Var2Int(qrReportGroup['ReportGroupID']);
-        ANodeData^.ReportGroupName := Var2String(qrReportGroup['ReportGroupName']);
+        ANodeData^.ReportGroupID:= (qrReportGroup['ReportGroupID']);
+        ANodeData^.ReportGroupName := VarToStr(qrReportGroup['ReportGroupName']);
         ANodeData^.ReportID := 0;
         ANodeData^.ReportName := '';
         ANodeData^.IsActive := 0;
@@ -240,18 +259,18 @@ begin
         ANode.StateIndex := 1;
 
         if qrReports.Active then qrReports.Close;
-        qrReports.ParamByName('ReportGroupID').AsInteger := Var2Int(qrReportGroup['ReportGroupID']);
+        qrReports.ParamByName('ReportGroupID').AsInteger := (qrReportGroup['ReportGroupID']);
         qrReports.Open;
         while not qrReports.Eof  do
         begin
           New(BNodeData);
-          BNodeData^.ReportGroupID :=  Var2Int(qrReports['ReportGroupID']);
+          BNodeData^.ReportGroupID :=  (qrReports['ReportGroupID']);
           BNodeData^.ReportGroupName := '';
-          BNodeData^.ReportID := Var2Int(qrReports['ReportID']);
-          BNodeData^.ReportName := Var2String(qrReports['ReportName']);
-          BNodeData^.IsActive :=  Var2Int(qrReports['IsActive']);
+          BNodeData^.ReportID := (qrReports['ReportID']);
+          BNodeData^.ReportName := VarToStr(qrReports['ReportName']);
+          BNodeData^.IsActive :=  (qrReports['IsActive']);
           BNode := treeReport.Items.AddChildObject(ANode, BNodeData^.ReportName, BNodeData);
-          if  Var2Int(qrReports['IsActive']) = 1 then BNode.StateIndex := 2 else BNode.StateIndex := 3;
+          if  (qrReports['IsActive']) = 1 then BNode.StateIndex := 2 else BNode.StateIndex := 3;
           qrReports.Next;
         end;
       qrReportGroup.Next;
@@ -264,15 +283,5 @@ begin
 end;
 
 
-
-procedure TMainF.N1Click(Sender: TObject);
-var
-  s : string;
-begin
-  if InputString(s, 'Добавить отчет', 'Введите название', '', false, false ) =  mrOk then
-  begin
-    EditReportF.ShowEditReport(VarArrayOf([0, SelectedData.ReportGroupID, s ]));
-  end;
-end;
 
 end.
