@@ -22,7 +22,7 @@ uses
 
 type
   TDataF = class(TDataModule)
-    DB: TUniConnection;
+    MainConnection: TUniConnection;
     SQLServerProvider: TSQLServerUniProvider;
     SkinController: TdxSkinController;
     frxDB: TfrxUniDACComponents;
@@ -48,28 +48,29 @@ procedure TDataF.DataModuleCreate(Sender: TObject);
 var
   Ini : TIniFile;
 begin
- if DB.Connected then DB.Close;
-  try
-    Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+'config.ini');
-    {DB.Server := Ini.ReadString('DB', 'server', '');
-    DB.Database := Ini.ReadString('DB', 'database', '');
-    DB.Username := Ini.ReadString('DB', 'username', '');
-    DB.Password := Ini.ReadString('DB', 'password', '');  }
-    DB.Connect;
+ if MainConnection.Connected then MainConnection.Close;
+   if FileExists(ExtractFilePath(Application.ExeName)+'config.ini') then begin
+     try
+       Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+'config.ini');
+       DB.Server := Ini.ReadString('DB', 'server', '');
+       DB.Database := Ini.ReadString('DB', 'database', '');
+       DB.Username := Ini.ReadString('DB', 'username', '');
+       DB.Password := Ini.ReadString('DB', 'password', '');
+       MainConnection.Connect;
 
-    Localizer.FileName := IncludeTrailingBackslash(ExtractFilePath(Application.ExeName)) + 'RussianLng.ini';
-    Localizer.Active := True;
-    Localizer.Locale := 1049;
-  finally
-    Ini.Free;
-  end;
+       Localizer.FileName := IncludeTrailingBackslash(ExtractFilePath(Application.ExeName)) + 'RussianLng.ini';
+       Localizer.Active := True;
+       Localizer.Locale := 1049;
+     finally
+       Ini.Free;
+     end;
 
 end;
 
 procedure TDataF.DataModuleDestroy(Sender: TObject);
 begin
-  if DB.InTransaction then DB.Rollback;
-  DB.Close;
+  if MainConnection.InTransaction then MainConnection.Rollback;
+  MainConnection.Close;
 end;
 
 end.

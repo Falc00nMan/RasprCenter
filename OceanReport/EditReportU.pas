@@ -20,7 +20,7 @@ uses
   Vcl.StdCtrls, cxRadioGroup, cxMaskEdit, cxDropDownEdit, cxLookupEdit, cxDBLookupEdit, cxDBLookupComboBox, AdvPanel,
   cxCheckComboBox, cxDBCheckComboBox, cxButtons, cxStyles, cxCustomData, cxFilter, cxData, cxDataStorage, cxNavigator,
   cxDBData, cxGridCustomTableView, cxGridTableView, cxGridDBTableView, cxClasses, cxGridCustomView, cxGrid,
-  cxDBExtLookupComboBox, VirtualTable, dxmdaset;
+  cxDBExtLookupComboBox, VirtualTable, dxmdaset, frxDACComponents, frxUniDACComponents;
 
 type
   TEditReportF = class(TForm)

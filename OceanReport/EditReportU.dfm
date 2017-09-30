@@ -22,7 +22,9 @@ object EditReportF: TEditReportF
     Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlDesigner'
+    ParentShowHint = False
     ShowCaption = False
+    ShowHint = True
     TabOrder = 0
   end
   object pnlactions: TAdvPanel
@@ -234,7 +236,7 @@ object EditReportF: TEditReportF
     SQLRecCount.Strings = (
       'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
       ')')
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     SQL.Strings = (
       'select * from Reports where ReportID = :ReportID')
     Options.QueryRecCount = True
@@ -393,7 +395,7 @@ object EditReportF: TEditReportF
     SQLRecCount.Strings = (
       'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
       ')')
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     SQL.Strings = (
       'INSERT INTO ReportsFormsLinks (ReportID, FormID)'
       'VALUES (:ReportID, :FormID)')
@@ -447,7 +449,7 @@ object EditReportF: TEditReportF
     Top = 368
   end
   object qForms: TUniQuery
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     SQL.Strings = (
       
         'select FormID, FormName, ClassName, Cast(CASE WHEN FormSelected ' +
@@ -504,7 +506,7 @@ object EditReportF: TEditReportF
     SQLRecCount.Strings = (
       'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
       ')')
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     SQL.Strings = (
       'DELETE FROM ReportsFormsLinks WHERE ReportID = :ReportID')
     Options.QueryRecCount = True

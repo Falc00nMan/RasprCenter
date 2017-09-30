@@ -4,7 +4,7 @@ object DataF: TDataF
   OnDestroy = DataModuleDestroy
   Height = 561
   Width = 747
-  object DB: TUniConnection
+  object MainConnection: TUniConnection
     ProviderName = 'SQL Server'
     Database = 'RasprCenter2017'
     Username = 'eugene'
@@ -27,7 +27,7 @@ object DataF: TDataF
     Top = 28
   end
   object frxDB: TfrxUniDACComponents
-    DefaultDatabase = DB
+    DefaultDatabase = MainConnection
     Left = 40
     Top = 156
   end

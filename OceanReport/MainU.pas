@@ -75,6 +75,7 @@ type
     procedure actEditExecute(Sender: TObject);
     procedure actDeleteExecute(Sender: TObject);
     procedure actRightsExecute(Sender: TObject);
+    procedure treeReportDblClick(Sender: TObject);
   private
     SelectedData: PNodeData;
     procedure CloseChildrens;
@@ -160,10 +161,8 @@ end;
 
 procedure TMainF.actAddReportExecute(Sender: TObject);
 begin
-  //Application.CreateForm(TfmAddReport, fmAddReport);
-  //if fmAddReport.ShowModal = mrOk then
+  if SelectedData <> nil then
     ShowEditReport(VarArrayOf([0, SelectedData.ReportGroupID, 'Без названия' ]));
-  //FreeAndNil(fmAddReport);
 end;
 
 procedure TMainF.actDeleteExecute(Sender: TObject);
@@ -234,6 +233,11 @@ begin
   ToggleControls;
 end;
 
+procedure TMainF.treeReportDblClick(Sender: TObject);
+begin
+  actEditExecute(nil);
+end;
+
 procedure TMainF.LoadReportTree;
 var
   Anode, Bnode : TTreeNode;
@@ -279,6 +283,11 @@ begin
   finally
     treeReport.Items.EndUpdate;
     treeReport.FullExpand;
+    if treeReport.Items.Count > 0 then
+    begin
+      treeReport.Items.GetFirstNode.Selected := True;
+      treeReportClick(treeReport);
+    end;
   end;
 end;
 

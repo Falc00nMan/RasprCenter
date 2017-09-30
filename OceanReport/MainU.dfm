@@ -81,9 +81,8 @@ object MainF: TMainF
       SortType = stText
       TabOrder = 0
       OnClick = treeReportClick
+      OnDblClick = treeReportDblClick
       StateImages = imgTree
-      ExplicitLeft = -6
-      ExplicitTop = 48
     end
     object RzToolbar1: TRzToolbar
       Left = 0
@@ -208,7 +207,7 @@ object MainF: TMainF
     SQLRecCount.Strings = (
       'SET :PCOUNT = (SELECT COUNT(*) FROM ReportGroup'
       ')')
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     SQL.Strings = (
       'select * from ReportGroup')
     Options.QueryRecCount = True
@@ -258,7 +257,7 @@ object MainF: TMainF
     SQLRecCount.Strings = (
       'SET :PCOUNT = (SELECT COUNT(*) FROM ReportGroup'
       ')')
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     SQL.Strings = (
       'select * from Reports where ReportGroupID = :ReportGroupID')
     Options.QueryRecCount = True
@@ -447,7 +446,7 @@ object MainF: TMainF
       end>
   end
   object SQLTreeActions: TUniSQL
-    Connection = DataF.DB
+    Connection = DataF.MainConnection
     Left = 48
     Top = 292
   end
