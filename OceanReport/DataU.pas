@@ -49,13 +49,13 @@ var
   Ini : TIniFile;
 begin
  if MainConnection.Connected then MainConnection.Close;
-   if FileExists(ExtractFilePath(Application.ExeName)+'config.ini') then begin
+   if FileExists(ExtractFilePath(Application.ExeName)+'config.ini') then
      try
        Ini := TIniFile.Create(ExtractFilePath(Application.ExeName)+'config.ini');
-       DB.Server := Ini.ReadString('DB', 'server', '');
-       DB.Database := Ini.ReadString('DB', 'database', '');
-       DB.Username := Ini.ReadString('DB', 'username', '');
-       DB.Password := Ini.ReadString('DB', 'password', '');
+       MainConnection.Server := Ini.ReadString('DB', 'server', '');
+       MainConnection.Database := Ini.ReadString('DB', 'database', '');
+       MainConnection.Username := Ini.ReadString('DB', 'username', '');
+       MainConnection.Password := Ini.ReadString('DB', 'password', '');
        MainConnection.Connect;
 
        Localizer.FileName := IncludeTrailingBackslash(ExtractFilePath(Application.ExeName)) + 'RussianLng.ini';

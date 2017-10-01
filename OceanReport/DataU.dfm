@@ -9,7 +9,6 @@ object DataF: TDataF
     Database = 'RasprCenter2017'
     Username = 'eugene'
     Server = 'localhost'
-    Connected = True
     LoginPrompt = False
     Left = 36
     Top = 20
