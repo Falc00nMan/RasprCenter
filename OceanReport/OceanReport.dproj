@@ -102,10 +102,6 @@
             <FormType>dfm</FormType>
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
-        <DCCReference Include="EditReportU.pas">
-            <Form>EditReportF</Form>
-            <FormType>dfm</FormType>
-        </DCCReference>
         <DCCReference Include="ReportRightsU.pas">
             <Form>ReportRightsF</Form>
             <FormType>dfm</FormType>

@@ -2,8 +2,8 @@ object MainF: TMainF
   Left = 0
   Top = 0
   Caption = #1043#1077#1085#1077#1088#1072#1090#1086#1088' '#1086#1090#1095#1077#1090#1086#1074
-  ClientHeight = 609
-  ClientWidth = 894
+  ClientHeight = 492
+  ClientWidth = 642
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -12,15 +12,14 @@ object MainF: TMainF
   Font.Style = []
   FormStyle = fsMDIForm
   OldCreateOrder = False
-  WindowState = wsMaximized
-  OnClose = FormClose
+  Position = poScreenCenter
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
   object StatusBar: TdxStatusBar
     Left = 0
-    Top = 584
-    Width = 894
+    Top = 467
+    Width = 642
     Height = 25
     Panels = <
       item
@@ -42,28 +41,28 @@ object MainF: TMainF
     Font.Style = []
   end
   object splitLeft: TcxSplitter
-    Left = 299
-    Top = 0
+    Left = 0
+    Top = 30
     Width = 6
-    Height = 584
+    Height = 437
     ResizeUpdate = True
     Control = pnlTree
   end
   object pnlTree: TPanel
-    Left = 0
-    Top = 0
-    Width = 299
-    Height = 584
-    Align = alLeft
+    Left = 6
+    Top = 30
+    Width = 636
+    Height = 437
+    Align = alClient
     BevelOuter = bvNone
     Caption = 'pnlTree'
     ShowCaption = False
     TabOrder = 2
     object treeReport: TdxTreeView
       Left = 0
-      Top = 54
-      Width = 299
-      Height = 530
+      Top = 29
+      Width = 636
+      Height = 408
       ShowNodeHint = True
       AutoExpand = True
       ReadOnly = True
@@ -87,8 +86,8 @@ object MainF: TMainF
     object RzToolbar1: TRzToolbar
       Left = 0
       Top = 0
-      Width = 299
-      Height = 54
+      Width = 636
+      Height = 29
       Images = ilRefBookActionImages
       BorderInner = fsNone
       BorderOuter = fsGroove
@@ -150,8 +149,8 @@ object MainF: TMainF
         ShowHint = True
       end
       object btnRefresh: TRzToolButton
-        Left = 4
-        Top = 27
+        Left = 290
+        Top = 2
         Width = 90
         ShowCaption = True
         UseToolbarButtonSize = False
@@ -162,20 +161,115 @@ object MainF: TMainF
       end
     end
   end
-  object MDIManager: TdxTabbedMDIManager
-    Active = True
-    TabProperties.AllowTabDragDrop = True
-    TabProperties.CloseButtonMode = cbmEveryTab
-    TabProperties.CustomButtons.Buttons = <>
-    TabProperties.CustomButtons.Mode = cbmEveryTab
-    TabProperties.MultiLine = True
-    TabProperties.Options = [pcoAlwaysShowGoDialogButton, pcoRedrawOnResize]
-    TabProperties.Style = 9
-    TabProperties.TabHeight = 20
-    TabProperties.TabSlants.Kind = skCutCorner
-    TabProperties.TabSlants.Positions = [spLeft, spRight]
-    Left = 340
-    Top = 112
+  object pnlActions: TAdvPanel
+    Left = 0
+    Top = 0
+    Width = 642
+    Height = 30
+    Align = alTop
+    BevelOuter = bvNone
+    Color = 16643823
+    Font.Charset = DEFAULT_CHARSET
+    Font.Color = clBlack
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentFont = False
+    TabOrder = 3
+    UseDockManager = True
+    Visible = False
+    Version = '2.3.0.8'
+    AutoSize.Width = False
+    BorderWidth = 1
+    Caption.Color = 16643823
+    Caption.ColorTo = 15784647
+    Caption.Font.Charset = DEFAULT_CHARSET
+    Caption.Font.Color = 5978398
+    Caption.Font.Height = -11
+    Caption.Font.Name = 'Tahoma'
+    Caption.Font.Style = []
+    Caption.GradientDirection = gdVertical
+    Caption.Indent = 2
+    Caption.ShadeLight = 255
+    CollapsColor = clNone
+    CollapsDelay = 0
+    ColorTo = 15784647
+    ShadowColor = clBlack
+    ShadowOffset = 0
+    StatusBar.BorderColor = 16643823
+    StatusBar.BorderStyle = bsSingle
+    StatusBar.Font.Charset = DEFAULT_CHARSET
+    StatusBar.Font.Color = 5978398
+    StatusBar.Font.Height = -11
+    StatusBar.Font.Name = 'Tahoma'
+    StatusBar.Font.Style = []
+    StatusBar.Color = 16643823
+    StatusBar.ColorTo = 15784647
+    StatusBar.GradientDirection = gdVertical
+    Text = ''
+    FullHeight = 30
+    object cxLabel1: TcxLabel
+      Left = 5
+      Top = 6
+      Caption = #1053#1072#1079#1074#1072#1085#1080#1077
+      Transparent = True
+    end
+    object rbReport: TcxRadioButton
+      Left = 355
+      Top = 7
+      Width = 50
+      Height = 17
+      Caption = #1086#1090#1095#1077#1090
+      TabOrder = 2
+      OnClick = chkActiveClick
+      Transparent = True
+    end
+    object rbDocument: TcxRadioButton
+      Left = 280
+      Top = 7
+      Width = 70
+      Height = 17
+      Caption = #1076#1086#1082#1091#1084#1077#1085#1090
+      Checked = True
+      TabOrder = 3
+      TabStop = True
+      OnClick = chkActiveClick
+      Transparent = True
+    end
+    object chkActive: TcxCheckBox
+      Left = 420
+      Top = 7
+      AutoSize = False
+      Caption = #1040#1082#1090#1080#1074#1077#1085
+      Properties.DisplayChecked = '1'
+      Properties.DisplayUnchecked = '0'
+      Properties.NullStyle = nssUnchecked
+      Properties.ValueChecked = '1'
+      Properties.ValueUnchecked = '0'
+      State = cbsChecked
+      TabOrder = 4
+      Transparent = True
+      OnClick = chkActiveClick
+      Height = 17
+      Width = 73
+    end
+    object edReportName: TcxTextEdit
+      Left = 63
+      Top = 4
+      Properties.OnChange = edReportNamePropertiesChange
+      TabOrder = 1
+      Text = #1041#1077#1079' '#1085#1072#1079#1074#1072#1085#1080#1103
+      Width = 200
+    end
+    object SelectForms: TcxButton
+      Left = 500
+      Top = 4
+      Width = 121
+      Height = 21
+      Caption = #1042#1099#1073#1088#1072#1090#1100' '#1092#1086#1088#1084#1099
+      TabOrder = 5
+      OnClick = SelectFormsClick
+    end
   end
   object qrReportGroup: TUniQuery
     KeyFields = 'ReportGroupID'
@@ -213,8 +307,8 @@ object MainF: TMainF
     Options.QueryRecCount = True
     Options.ReturnParams = True
     BeforeUpdateExecute = qrReportGroupBeforeUpdateExecute
-    Left = 40
-    Top = 168
+    Left = 32
+    Top = 248
     object qrReportGroupReportGroupID: TIntegerField
       AutoGenerateValue = arAutoInc
       FieldName = 'ReportGroupID'
@@ -262,8 +356,8 @@ object MainF: TMainF
       'select * from Reports where ReportGroupID = :ReportGroupID')
     Options.QueryRecCount = True
     Options.ReturnParams = True
-    Left = 136
-    Top = 192
+    Left = 32
+    Top = 304
     ParamData = <
       item
         DataType = ftUnknown
@@ -284,17 +378,14 @@ object MainF: TMainF
       Required = True
       Size = 128
     end
-    object qrReportsReportBinary: TBlobField
-      FieldName = 'ReportBinary'
-    end
-    object qrReportsIsActive: TByteField
+    object bytfldReportsIsActive: TByteField
       FieldName = 'IsActive'
       Required = True
     end
   end
   object imgTree: TcxImageList
     FormatVersion = 1
-    DesignInfo = 12583296
+    DesignInfo = 11534368
     ImageInfo = <
       item
         Image.Data = {
@@ -447,12 +538,12 @@ object MainF: TMainF
   end
   object SQLTreeActions: TUniSQL
     Connection = DataF.MainConnection
-    Left = 48
-    Top = 292
+    Left = 24
+    Top = 108
   end
   object ilRefBookActionImages: TcxImageList
     FormatVersion = 1
-    DesignInfo = 4719096
+    DesignInfo = 11534440
     ImageInfo = <
       item
         Image.Data = {
@@ -1054,14 +1145,425 @@ object MainF: TMainF
   end
   object pmAddClientsGroup: TAdvPopupMenu
     Version = '2.5.7.0'
-    Left = 172
-    Top = 96
+    Left = 124
+    Top = 72
     object miAddProdCat: TMenuItem
       Action = actAddGroup
       Default = True
     end
     object miAddProdCatSub: TMenuItem
       Action = actAddReport
+    end
+  end
+  object qForms: TUniQuery
+    Connection = DataF.MainConnection
+    SQL.Strings = (
+      
+        'select FormID, FormName, ClassName, Cast(CASE WHEN FormSelected ' +
+        'IS NULL THEN 0 ELSE 1 END as tinyint) FormSelected From ('
+      'select s.*, l.FormID FormSelected from sprForms s'
+      
+        'left join ReportsFormsLinks l on l.FormID = s.FormID and l.Repor' +
+        'tID = :ReportID) q'
+      'order by FormName')
+    Left = 34
+    Top = 411
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'ReportID'
+        ParamType = ptInput
+        Value = nil
+      end>
+  end
+  object mdForms: TdxMemData
+    Indexes = <>
+    SortOptions = []
+    Left = 104
+    Top = 411
+  end
+  object qrReportsFormsLinkDelete: TUniQuery
+    KeyFields = 'ReportID'
+    SQLInsert.Strings = (
+      'INSERT INTO Reports'
+      '  (ReportGroupID, ReportName, ReportBinary, IsActive, DocType)'
+      'VALUES'
+      
+        '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive, :DocTy' +
+        'pe)'
+      'SET :ReportID = SCOPE_IDENTITY()')
+    SQLDelete.Strings = (
+      'DELETE FROM Reports'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLUpdate.Strings = (
+      'UPDATE Reports'
+      'SET'
+      
+        '  ReportGroupID = :ReportGroupID, ReportName = :ReportName, Repo' +
+        'rtBinary = :ReportBinary, IsActive = :IsActive, DocType = :DocTy' +
+        'pe'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLLock.Strings = (
+      'SELECT * FROM Reports'
+      'WITH (UPDLOCK, ROWLOCK, HOLDLOCK)'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLRefresh.Strings = (
+      
+        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive, DocTyp' +
+        'e FROM Reports'
+      'WHERE'
+      '  ReportID = :ReportID')
+    SQLRecCount.Strings = (
+      'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
+      ')')
+    Connection = DataF.MainConnection
+    SQL.Strings = (
+      'DELETE FROM ReportsFormsLinks WHERE ReportID = :ReportID')
+    Options.QueryRecCount = True
+    Options.ReturnParams = True
+    Left = 104
+    Top = 360
+    ParamData = <
+      item
+        DataType = ftInteger
+        Name = 'ReportID'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object IntegerField3: TIntegerField
+      FieldName = 'ReportID'
+      ReadOnly = True
+      Required = True
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'ReportGroupID'
+      Required = True
+    end
+    object WideStringField2: TWideStringField
+      FieldName = 'ReportName'
+      Required = True
+      Size = 128
+    end
+    object BlobField2: TBlobField
+      FieldName = 'ReportBinary'
+    end
+    object ByteField3: TByteField
+      FieldName = 'IsActive'
+      Required = True
+    end
+    object ByteField4: TByteField
+      FieldName = 'DocType'
+      Required = True
+    end
+  end
+  object qrReportsFormsLink: TUniQuery
+    KeyFields = 'ReportID'
+    SQLInsert.Strings = (
+      'INSERT INTO Reports'
+      '  (ReportGroupID, ReportName, ReportBinary, IsActive, DocType)'
+      'VALUES'
+      
+        '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive, :DocTy' +
+        'pe)'
+      'SET :ReportID = SCOPE_IDENTITY()')
+    SQLDelete.Strings = (
+      'DELETE FROM Reports'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLUpdate.Strings = (
+      'UPDATE Reports'
+      'SET'
+      
+        '  ReportGroupID = :ReportGroupID, ReportName = :ReportName, Repo' +
+        'rtBinary = :ReportBinary, IsActive = :IsActive, DocType = :DocTy' +
+        'pe'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLLock.Strings = (
+      'SELECT * FROM Reports'
+      'WITH (UPDLOCK, ROWLOCK, HOLDLOCK)'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLRefresh.Strings = (
+      
+        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive, DocTyp' +
+        'e FROM Reports'
+      'WHERE'
+      '  ReportID = :ReportID')
+    SQLRecCount.Strings = (
+      'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
+      ')')
+    Connection = DataF.MainConnection
+    SQL.Strings = (
+      'INSERT INTO ReportsFormsLinks (ReportID, FormID)'
+      'VALUES (:ReportID, :FormID)')
+    Options.QueryRecCount = True
+    Options.ReturnParams = True
+    Left = 32
+    Top = 360
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ReportID'
+        Value = nil
+      end
+      item
+        DataType = ftInteger
+        Name = 'FormID'
+        ParamType = ptInput
+        Value = nil
+      end>
+    object IntegerField1: TIntegerField
+      FieldName = 'ReportID'
+      ReadOnly = True
+      Required = True
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'ReportGroupID'
+      Required = True
+    end
+    object WideStringField1: TWideStringField
+      FieldName = 'ReportName'
+      Required = True
+      Size = 128
+    end
+    object BlobField1: TBlobField
+      FieldName = 'ReportBinary'
+    end
+    object ByteField1: TByteField
+      FieldName = 'IsActive'
+      Required = True
+    end
+    object ByteField2: TByteField
+      FieldName = 'DocType'
+      Required = True
+    end
+  end
+  object dsReports: TUniDataSource
+    Left = 104
+    Top = 304
+  end
+  object frxChartObject: TfrxChartObject
+    Left = 312
+    Top = 160
+  end
+  object frxReport: TfrxReport
+    Version = '5.3.1'
+    DotMatrixReport = False
+    IniFile = '\Software\Fast Reports'
+    PreviewOptions.Buttons = [pbPrint, pbLoad, pbSave, pbExport, pbZoom, pbFind, pbOutline, pbPageSetup, pbTools, pbEdit, pbNavigator, pbExportQuick]
+    PreviewOptions.Zoom = 1.000000000000000000
+    PrintOptions.Printer = #1055#1086' '#1091#1084#1086#1083#1095#1072#1085#1080#1102
+    PrintOptions.PrintOnSheet = 0
+    ReportOptions.CreateDate = 42211.439516712960000000
+    ReportOptions.LastChange = 42211.439516712960000000
+    ScriptLanguage = 'PascalScript'
+    ScriptText.Strings = (
+      'begin'
+      ''
+      'end.')
+    Left = 392
+    Top = 72
+    Datasets = <>
+    Variables = <>
+    Style = <>
+    object Data: TfrxDataPage
+      Height = 1000.000000000000000000
+      Width = 1000.000000000000000000
+    end
+    object Page1: TfrxReportPage
+      Orientation = poLandscape
+      PaperWidth = 297.000000000000000000
+      PaperHeight = 210.000000000000000000
+      PaperSize = 9
+      LeftMargin = 10.000000000000000000
+      RightMargin = 10.000000000000000000
+      TopMargin = 10.000000000000000000
+      BottomMargin = 10.000000000000000000
+      object MasterData1: TfrxMasterData
+        FillType = ftBrush
+        Height = 22.677180000000000000
+        Top = 18.897650000000000000
+        Width = 1046.929810000000000000
+        RowCount = 0
+      end
+    end
+  end
+  object frxDesigner: TfrxDesigner
+    DefaultScriptLanguage = 'PascalScript'
+    DefaultFont.Charset = DEFAULT_CHARSET
+    DefaultFont.Color = clWindowText
+    DefaultFont.Height = -13
+    DefaultFont.Name = 'Arial'
+    DefaultFont.Style = []
+    DefaultLeftMargin = 10.000000000000000000
+    DefaultRightMargin = 10.000000000000000000
+    DefaultTopMargin = 10.000000000000000000
+    DefaultBottomMargin = 10.000000000000000000
+    DefaultPaperSize = 9
+    DefaultOrientation = poPortrait
+    GradientEnd = 11982554
+    GradientStart = clWindow
+    TemplatesExt = 'fr3'
+    Restrictions = [drDontShowRecentFiles]
+    RTLLanguage = False
+    MemoParentFont = False
+    OnSaveReport = frxDesignerSaveReport
+    OnShow = frxDesignerShow
+    Left = 316
+    Top = 72
+  end
+  object frxBarCodeObject: TfrxBarCodeObject
+    Left = 484
+    Top = 72
+  end
+  object frxCrossObject: TfrxCrossObject
+    Left = 574
+    Top = 72
+  end
+  object frxOLEObject: TfrxOLEObject
+    Left = 574
+    Top = 156
+  end
+  object frxRichObject: TfrxRichObject
+    Left = 488
+    Top = 228
+  end
+  object frxCheckBoxObject: TfrxCheckBoxObject
+    Left = 486
+    Top = 300
+  end
+  object frxCrypt: TfrxCrypt
+    Left = 398
+    Top = 156
+  end
+  object frxGradientObject: TfrxGradientObject
+    Left = 574
+    Top = 228
+  end
+  object frxDotMatrixExport: TfrxDotMatrixExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    EscModel = 0
+    GraphicFrames = False
+    SaveToFile = False
+    UseIniSettings = True
+    Left = 486
+    Top = 160
+  end
+  object frxDialogControls: TfrxDialogControls
+    Left = 310
+    Top = 232
+  end
+  object fsScript: TfsScript
+    SyntaxType = 'PascalScript'
+    Left = 398
+    Top = 232
+  end
+  object frxPDFExport: TfrxPDFExport
+    UseFileCache = True
+    ShowProgress = True
+    OverwritePrompt = False
+    DataOnly = False
+    PrintOptimized = False
+    Outline = False
+    Background = False
+    HTMLTags = True
+    Quality = 95
+    Transparency = False
+    Author = 'FastReport'
+    Subject = 'FastReport PDF export'
+    ProtectionFlags = [ePrint, eModify, eCopy, eAnnot]
+    HideToolbar = False
+    HideMenubar = False
+    HideWindowUI = False
+    FitWindow = False
+    CenterWindow = False
+    PrintScaling = False
+    PdfA = False
+    Left = 574
+    Top = 296
+  end
+  object qrReport: TUniQuery
+    KeyFields = 'ReportID'
+    SQLInsert.Strings = (
+      'INSERT INTO Reports'
+      '  (ReportGroupID, ReportName, ReportBinary, IsActive, DocType)'
+      'VALUES'
+      
+        '  (:ReportGroupID, :ReportName, :ReportBinary, :IsActive, :DocTy' +
+        'pe)'
+      'SET :ReportID = SCOPE_IDENTITY()')
+    SQLDelete.Strings = (
+      'DELETE FROM Reports'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLUpdate.Strings = (
+      'UPDATE Reports'
+      'SET'
+      
+        '  ReportGroupID = :ReportGroupID, ReportName = :ReportName, Repo' +
+        'rtBinary = :ReportBinary, IsActive = :IsActive, DocType = :DocTy' +
+        'pe'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLLock.Strings = (
+      'SELECT * FROM Reports'
+      'WITH (UPDLOCK, ROWLOCK, HOLDLOCK)'
+      'WHERE'
+      '  ReportID = :Old_ReportID')
+    SQLRefresh.Strings = (
+      
+        'SELECT ReportGroupID, ReportName, ReportBinary, IsActive, DocTyp' +
+        'e FROM Reports'
+      'WHERE'
+      '  ReportID = :ReportID')
+    SQLRecCount.Strings = (
+      'SET :PCOUNT = (SELECT COUNT(*) FROM Reports'
+      ')')
+    Connection = DataF.MainConnection
+    SQL.Strings = (
+      'select * from Reports where ReportID = :ReportID')
+    Options.QueryRecCount = True
+    Options.ReturnParams = True
+    BeforeUpdateExecute = qrReportBeforeUpdateExecute
+    Left = 104
+    Top = 248
+    ParamData = <
+      item
+        DataType = ftUnknown
+        Name = 'ReportID'
+        Value = nil
+      end>
+    object qrReportReportID: TIntegerField
+      FieldName = 'ReportID'
+      ReadOnly = True
+      Required = True
+    end
+    object qrReportReportGroupID: TIntegerField
+      FieldName = 'ReportGroupID'
+      Required = True
+    end
+    object qrReportReportName: TWideStringField
+      FieldName = 'ReportName'
+      Required = True
+      Size = 128
+    end
+    object qrReportReportBinary: TBlobField
+      FieldName = 'ReportBinary'
+    end
+    object qrReportIsActive: TByteField
+      FieldName = 'IsActive'
+      Required = True
+    end
+    object qrReportDocType: TByteField
+      FieldName = 'DocType'
+      Required = True
     end
   end
 end

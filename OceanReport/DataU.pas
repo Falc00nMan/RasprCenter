@@ -18,7 +18,9 @@ uses
   dxSkinOffice2013White, dxSkinPumpkin, dxSkinSeven, dxSkinSevenClassic,
   dxSkinSharp, dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust,
   dxSkinSummer2008, dxSkinTheAsphaltWorld, dxSkinsDefaultPainters,
-  dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue;
+  dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue, frxExportPDF, fs_iinterpreter, frxDCtrl,
+  frxDMPExport, frxGradient, frxCrypt, frxChBox, frxRich, frxOLE, frxCross, frxBarcode, frxDesgn, frxChart, dxmdaset,
+  MemDS;
 
 type
   TDataF = class(TDataModule)
@@ -72,5 +74,6 @@ begin
   if MainConnection.InTransaction then MainConnection.Rollback;
   MainConnection.Close;
 end;
+
 
 end.

@@ -17,7 +17,9 @@ uses
   dxSkinSharpPlus, dxSkinSilver, dxSkinSpringTime, dxSkinStardust, dxSkinSummer2008, dxSkinTheAsphaltWorld,
   dxSkinsDefaultPainters, dxSkinValentine, dxSkinVS2010, dxSkinWhiteprint, dxSkinXmas2008Blue,
   dxSkinsdxStatusBarPainter, dxSkinscxPCPainter, VirtualTable, dxmdaset, RzPanel, RzButton, System.Actions, Vcl.ActnList,
-  AdvMenus;
+  AdvMenus, cxContainer, cxEdit, cxTextEdit, cxCheckBox, cxRadioGroup, cxLabel, AdvPanel, frxExportPDF, fs_iinterpreter,
+  frxDCtrl, frxClass, frxDMPExport, frxGradient, frxCrypt, frxChBox, frxRich, frxOLE, frxCross, frxBarcode, frxDesgn,
+  frxChart;
 
   type
   PNodeData = ^TNodeData;
@@ -34,7 +36,6 @@ type
     StatusBar: TdxStatusBar;
     treeReport: TdxTreeView;
     splitLeft: TcxSplitter;
-    MDIManager: TdxTabbedMDIManager;
     qrReportGroup: TUniQuery;
     qrReportGroupReportGroupID: TIntegerField;
     qrReportGroupReportGroupName: TWideStringField;
@@ -42,8 +43,6 @@ type
     qrReportsReportID: TIntegerField;
     qrReportsReportGroupID: TIntegerField;
     qrReportsReportName: TWideStringField;
-    qrReportsReportBinary: TBlobField;
-    qrReportsIsActive: TByteField;
     imgTree: TcxImageList;
     pnlTree: TPanel;
     SQLTreeActions: TUniSQL;
@@ -65,8 +64,51 @@ type
     miAddProdCat: TMenuItem;
     miAddProdCatSub: TMenuItem;
     actRights: TAction;
+    pnlActions: TAdvPanel;
+    cxLabel1: TcxLabel;
+    rbReport: TcxRadioButton;
+    rbDocument: TcxRadioButton;
+    chkActive: TcxCheckBox;
+    edReportName: TcxTextEdit;
+    SelectForms: TcxButton;
+    qForms: TUniQuery;
+    mdForms: TdxMemData;
+    qrReportsFormsLinkDelete: TUniQuery;
+    IntegerField3: TIntegerField;
+    IntegerField4: TIntegerField;
+    WideStringField2: TWideStringField;
+    BlobField2: TBlobField;
+    ByteField3: TByteField;
+    ByteField4: TByteField;
+    qrReportsFormsLink: TUniQuery;
+    IntegerField1: TIntegerField;
+    IntegerField2: TIntegerField;
+    WideStringField1: TWideStringField;
+    BlobField1: TBlobField;
+    ByteField1: TByteField;
+    ByteField2: TByteField;
+    dsReports: TUniDataSource;
+    frxChartObject: TfrxChartObject;
+    frxReport: TfrxReport;
+    frxDesigner: TfrxDesigner;
+    frxBarCodeObject: TfrxBarCodeObject;
+    frxCrossObject: TfrxCrossObject;
+    frxOLEObject: TfrxOLEObject;
+    frxRichObject: TfrxRichObject;
+    frxCheckBoxObject: TfrxCheckBoxObject;
+    frxCrypt: TfrxCrypt;
+    frxGradientObject: TfrxGradientObject;
+    frxDotMatrixExport: TfrxDotMatrixExport;
+    frxDialogControls: TfrxDialogControls;
+    fsScript: TfsScript;
+    frxPDFExport: TfrxPDFExport;
+    qrReport: TUniQuery;
+    qrReportReportID: TIntegerField;
+    qrReportReportGroupID: TIntegerField;
+    qrReportReportName: TWideStringField;
+    qrReportReportBinary: TBlobField;
+    bytfldReportsIsActive: TByteField;
     procedure treeReportClick(Sender: TObject);
-    procedure FormClose(Sender: TObject; var Action: TCloseAction);
     procedure qrReportGroupBeforeUpdateExecute(Sender: TDataSet;
       StatementTypes: TStatementTypes; Params: TDAParams);
     procedure FormCreate(Sender: TObject);
@@ -76,9 +118,15 @@ type
     procedure actDeleteExecute(Sender: TObject);
     procedure actRightsExecute(Sender: TObject);
     procedure treeReportDblClick(Sender: TObject);
+    procedure frxDesignerShow(Sender: TObject);
+    procedure chkActiveClick(Sender: TObject);
+    procedure qrReportBeforeUpdateExecute(Sender: TDataSet; StatementTypes: TStatementTypes; Params: TDAParams);
+    procedure SelectFormsClick(Sender: TObject);
+    procedure edReportNamePropertiesChange(Sender: TObject);
+    function frxDesignerSaveReport(Report: TfrxReport; SaveAs: Boolean): Boolean;
+    procedure DesignerDestroy(Sender: TObject);
   private
     SelectedData: PNodeData;
-    procedure CloseChildrens;
     procedure LoadReportTree;
     procedure ToggleControls;
 
@@ -86,6 +134,7 @@ type
     function EditReportGroup (ReportGroupID : Integer; ReportGroupName : string) : Boolean;
     function DeleteReportGroup (ReportGroupID : Integer) : Boolean;
     function DeleteReport (ReportID : Integer) : Boolean;
+    procedure LoadReport(ReportID, ReportGroupID: Integer; ReportName: String);
 
     //function InsertReport (ReportGroupID : Integer; ReportGroupName : string) : Boolean;
   public
@@ -99,11 +148,21 @@ implementation
 
 {$R *.dfm}
 
-uses DataU, EditReportU, ReportRightsU;
+uses DataU, ReportRightsU, SelectFormU;
 
 procedure TMainF.ReloadTree;
 begin
   LoadReportTree;
+end;
+
+procedure TMainF.SelectFormsClick(Sender: TObject);
+begin
+  Application.CreateForm(TSelectForm, SelectForm);
+  mdForms.First;
+  SelectForm.dsForms.DataSet := mdForms;
+  SelectForm.ShowModal;
+  FreeAndNil(SelectForm);
+  frxReport.Designer.Modified := True;
 end;
 
 procedure TMainF.ToggleControls;
@@ -131,6 +190,14 @@ begin
   SQLTreeActions.ParamByName('ReportGroupName').AsString := ReportGroupName;
   SQLTreeActions.Execute;
   Result := True;
+end;
+
+procedure TMainF.edReportNamePropertiesChange(Sender: TObject);
+begin
+  frxReport.FileName := edReportName.Text;
+  frxReport.ReportOptions.Name := edReportName.Text;
+  if frxReport.Designer <> nil then
+    frxReport.Designer.Caption := edReportName.Text;
 end;
 
 function TMainF.DeleteReportGroup (ReportGroupID : Integer) : Boolean;
@@ -162,7 +229,7 @@ end;
 procedure TMainF.actAddReportExecute(Sender: TObject);
 begin
   if SelectedData <> nil then
-    ShowEditReport(VarArrayOf([0, SelectedData.ReportGroupID, 'Без названия' ]));
+    LoadReport(0, SelectedData.ReportGroupID, 'Без названия');
 end;
 
 procedure TMainF.actDeleteExecute(Sender: TObject);
@@ -194,7 +261,7 @@ begin
     end;
   end else
   begin
-    ShowEditReport(VarArrayOf([SelectedData.ReportID, SelectedData.ReportGroupID, SelectedData.ReportName ]));
+    LoadReport(SelectedData.ReportID, SelectedData.ReportGroupID, SelectedData.ReportName);
   end;
 end;
 
@@ -203,17 +270,10 @@ begin
   ReportRightsF.EditReportRights(SelectedData.ReportID);
 end;
 
-procedure TMainF.CloseChildrens;
-var
-  i : Integer;
+procedure TMainF.chkActiveClick(Sender: TObject);
 begin
-  for i := 0 to MDIChildCount-1 do
-    MDIChildren[i].Close;
-end;
-
-procedure TMainF.FormClose(Sender: TObject; var Action: TCloseAction);
-begin
-  CloseChildrens;
+  if frxReport.Report.Designer <> nil then
+    frxReport.Report.Designer.Modified := True;
 end;
 
 procedure TMainF.FormCreate(Sender: TObject);
@@ -221,10 +281,93 @@ begin
   LoadReportTree;
 end;
 
+procedure TMainF.DesignerDestroy(Sender: TObject);
+begin
+  pnlActions.Visible := False;
+  pnlActions.Parent := Self;
+  MainF.ReloadTree;
+end;
+
+function TMainF.frxDesignerSaveReport(Report: TfrxReport; SaveAs: Boolean): Boolean;
+var
+  Stream : TMemoryStream;
+begin
+  Stream := TMemoryStream.Create;
+
+  if qrReport.IsEmpty then
+  begin
+    qrReport.Append;
+    //frxReport.Report.ReportOptions.Name := ReportName;
+    frxReport.FileName := edReportName.Text;
+    frxReport.SaveToStream(Stream);
+    Stream.Position := 0;
+    qrReportReportBinary.LoadFromStream(Stream);
+    qrReport['ReportGroupID'] := SelectedData.ReportGroupID;
+    qrReport['ReportName'] := edReportName.Text;
+    qrReport['IsActive'] := chkActive.EditingValue;
+    if rbReport.Checked then
+      qrReport['DocType'] := 1
+    else
+      qrReport['DocType'] := 2;
+
+    qrReport.Post;
+    chkActive.EditValue := qrReport['IsActive'];
+    SelectedData.ReportID := qrReport['ReportID'];
+  end else
+  begin
+    qrReport.Edit;
+    frxReport.SaveToStream(Stream);
+    qrReportReportBinary.LoadFromStream(Stream);
+    qrReport['ReportName'] := edReportName.Text;
+    if rbDocument.Checked then
+      qrReport['DocType'] := 1
+    else
+      qrReport['DocType'] := 2;
+    qrReport['IsActive'] := chkActive.EditingValue;
+    qrReport.Post;
+  end;
+
+  qrReportsFormsLinkDelete.ParamByName('ReportID').AsInteger := SelectedData.ReportID;
+  qrReportsFormsLinkDelete.ExecSQL;
+
+  mdForms.First;
+  while not mdForms.Eof do
+  begin
+    if mdForms.FieldByName('FormSelected').Value = 1 then
+    begin
+      qrReportsFormsLink.ParamByName('ReportID').Value := SelectedData.ReportID;
+      qrReportsFormsLink.ParamByName('FormID').Value := mdForms.FieldByName('FormID').Value;
+      qrReportsFormsLink.ExecSQL;
+    end;
+    mdForms.Next;
+  end;
+
+  Stream.Free;
+  MessageBox(handle,PChar('Отчет сохранен.'+#13#10), PChar('Информация'), MB_OK+MB_DEFBUTTON1+MB_DEFBUTTON2+MB_ICONINFORMATION);
+
+  frxReport.Designer.Modified := False;
+end;
+
+procedure TMainF.frxDesignerShow(Sender: TObject);
+begin
+  pnlActions.Parent := TfrxDesignerForm(frxReport.Designer);
+  pnlActions.Visible := True;
+  frxReport.Designer.Modified := True;
+  frxReport.Designer.Caption := edReportName.Text;
+  frxReport.Designer.OnDestroy := DesignerDestroy;
+end;
+
+procedure TMainF.qrReportBeforeUpdateExecute(Sender: TDataSet; StatementTypes: TStatementTypes; Params: TDAParams);
+begin
+  if stInsert in StatementTypes then
+    Params.ParamByName('ReportID').ParamType := ptInputOutput;
+end;
+
 procedure TMainF.qrReportGroupBeforeUpdateExecute(Sender: TDataSet;
   StatementTypes: TStatementTypes; Params: TDAParams);
 begin
-  if stInsert in StatementTypes then Params.ParamByName('ReportGroupID').ParamType := ptInputOutput;
+  if stInsert in StatementTypes then
+    Params.ParamByName('ReportGroupID').ParamType := ptInputOutput;
 end;
 
 procedure TMainF.treeReportClick(Sender: TObject);
@@ -274,7 +417,7 @@ begin
           BNodeData^.ReportName := VarToStr(qrReports['ReportName']);
           BNodeData^.IsActive :=  (qrReports['IsActive']);
           BNode := treeReport.Items.AddChildObject(ANode, BNodeData^.ReportName, BNodeData);
-          if  (qrReports['IsActive']) = 1 then BNode.StateIndex := 2 else BNode.StateIndex := 3;
+          if (qrReports['IsActive']) = 1 then BNode.StateIndex := 2 else BNode.StateIndex := 3;
           qrReports.Next;
         end;
       qrReportGroup.Next;
@@ -291,6 +434,46 @@ begin
   end;
 end;
 
+procedure TMainF.LoadReport(ReportID, ReportGroupID: Integer; ReportName: String);
+var
+  Designer: TfrxDesignerForm;
+  Stream : TMemoryStream;
+begin
+  Stream := TMemoryStream.Create;
+  if qrReport.Active then qrReport.Close;
+  qrReport.ParamByName('ReportID').AsInteger := ReportID;
+  qrReport.Open;
+
+  if qrReport.IsEmpty then
+  begin
+    chkActive.EditValue := 1;
+    chkActive.Checked := True;
+  end else
+  begin
+    qrReportReportBinary.SaveToStream(Stream);
+    Stream.Position := 0;
+    frxReport.LoadFromStream(Stream);
+    chkActive.EditValue := (qrReport['IsActive']);
+    rbReport.Checked := (qrReport['DocType'] = 2);
+  end;
+
+  Stream.Free;
+
+  if ReportId = 0 then
+    qForms.ParamByName('ReportID').Clear
+  else
+    qForms.ParamByName('ReportID').Value := ReportID;
+  qForms.Open;
+  mdForms.CopyFromDataSet(qForms);
+  mdForms.Open;
+  qForms.Close;
+
+  frxReport.EngineOptions.DestroyForms := False;
+
+  edReportName.Text := ReportName;
+  frxReport.DesignReport(True, False);
+
+end;
 
 
 end.

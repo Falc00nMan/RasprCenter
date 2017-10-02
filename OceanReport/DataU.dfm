@@ -9,6 +9,7 @@ object DataF: TDataF
     Database = 'RasprCenter2017'
     Username = 'eugene'
     Server = 'localhost'
+    Connected = True
     LoginPrompt = False
     Left = 36
     Top = 20
@@ -22,8 +23,8 @@ object DataF: TDataF
     Kind = lfStandard
     SkinName = 'Office2013White'
     UseSkins = False
-    Left = 252
-    Top = 28
+    Left = 140
+    Top = 12
   end
   object frxDB: TfrxUniDACComponents
     DefaultDatabase = MainConnection
@@ -31,7 +32,7 @@ object DataF: TDataF
     Top = 156
   end
   object Localizer: TcxLocalizer
-    Left = 252
-    Top = 80
+    Left = 108
+    Top = 64
   end
 end
